@@ -36,8 +36,7 @@ class RegisterController extends Controller
     {
         $validation = $this->validator($request->all());
         if($validation->fails()){
-            // TODO: Add validation error status
-            return 400;
+            return response()->json($validation->errors(), 417);
         }
         return $this->create($request->all());
     }
