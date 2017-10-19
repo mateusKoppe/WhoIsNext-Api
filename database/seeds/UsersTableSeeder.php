@@ -13,15 +13,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tasks_lists')->delete();
-        DB::table('users')->delete();
+        Schema::disableForeignKeyConstraints();
+        DB::table('tasks_lists')->truncate();
+        DB::table('users')->truncate();
+        Schema::enableForeignKeyConstraints();
         $faker = \Faker\Factory::create();
         User::create([
             'name' => 'Tonny Stark',
             'email' => 'tonny@stark.industries',
             'password' => bcrypt('iamironman'),
         ]);
-        for($i = 0; $i < 8; $i++){
+        for($i = 0; $i < 9; $i++){
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->email,
