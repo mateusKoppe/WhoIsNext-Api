@@ -22,12 +22,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Tonny Stark',
             'email' => 'tonny@stark.industries',
             'password' => bcrypt('iamironman'),
+            'api_token' => str_random(64),
         ]);
         for($i = 0; $i < 9; $i++){
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => bcrypt('secret'),
+                'api_token' => str_random(64),
             ]);
         }
     }
