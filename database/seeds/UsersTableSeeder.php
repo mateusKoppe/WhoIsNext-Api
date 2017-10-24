@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Tonny Stark',
             'email' => 'tonny@stark.industries',
             'password' => bcrypt('iamironman'),
-            'api_token' => str_random(64),
+            'api_token' => 'MDSU4AAp6gSQBpJW2Gcbp4RYaOMdIULmVQ1XkgDnq2FTPtTkTkj7DrrdINC87JcY',
         ]);
         for($i = 0; $i < 9; $i++){
             User::create([
