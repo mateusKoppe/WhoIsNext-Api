@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\TasksList;
+use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class TasksListController extends Controller
+class TaskController extends Controller
 {
     public function store(Request $request)
     {
@@ -21,27 +21,27 @@ class TasksListController extends Controller
         if($validation->fails()){
             return response()->json($validation->errors(), 417);
         }
-        return TasksList::create($body);
+        return Task::create($body);
     }
 
     public function index(Request $request)
     {
         $user = $request->user();
-        return TasksList::where('creator', $user->id)->get();
+        return Task::where('creator', $user->id)->get();
     }
 
-    public function show(TasksList $tasksList, Request $request)
+    public function show(Task $task, Request $request)
     {
         $user = $request->user();
-        if(!$this->hasPermission($tasksList, $user))
+        if(!$this->hasPermission($task, $user))
             return response()->json(['message' => 'Permission denied'], 403);
-        return $tasksList;
+        return $task;
     }
 
-    public function update(Request $request, TasksList $tasksList)
+    public function update(Request $request, Task $task)
     {
         $user = $request->user();
-        if(!$this->hasPermission($tasksList, $user))
+        if(!$this->hasPermission($task, $user))
             return response()->json(['message' => 'Permission denied'], 403);
         $body = $request->all();
         $validation = Validator::make($body, [
@@ -51,21 +51,21 @@ class TasksListController extends Controller
         if($validation->fails()){
             return response()->json($validation->errors(), 417);
         }
-        $tasksList->update($body);
-        return $tasksList;
+        $task->update($body);
+        return $task;
     }
 
-    public function destroy(TasksList $tasksList, Request $request)
+    public function destroy(Task $task, Request $request)
     {
         $user = $request->user();
-        if(!$this->hasPermission($tasksList, $user))
+        if(!$this->hasPermission($task, $user))
             return response()->json(['message' => 'Permission denied'], 403);
-        $tasksList->delete();
+        $task->delete();
         return response(null, 200);
     }
 
-    public function hasPermission($tasksList, $user)
+    public function hasPermission($task, $user)
     {
-        return $tasksList->creator == $user->id;
+        return $task->creator == $user->id;
     }
 }

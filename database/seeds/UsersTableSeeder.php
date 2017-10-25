@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         Schema::disableForeignKeyConstraints();
-        DB::table('tasks_lists')->truncate();
+        DB::table('tasks')->truncate();
         DB::table('users')->truncate();
         Schema::enableForeignKeyConstraints();
         $faker = \Faker\Factory::create();

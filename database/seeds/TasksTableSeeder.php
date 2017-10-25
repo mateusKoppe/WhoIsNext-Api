@@ -1,9 +1,9 @@
 <?php
 
-use App\TasksList;
+use App\Task;
 use Illuminate\Database\Seeder;
 
-class TasksListsTableSeeder extends Seeder
+class TasksTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,10 @@ class TasksListsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tasks_lists')->truncate();
+        DB::table('tasks')->truncate();
         $faker = \Faker\Factory::create();
         for($i = 0; $i < 50; $i++){
-            TasksList::create([
+            Task::create([
                 'name' => $faker->name,
                 'description' => $faker->text,
                 'creator' => rand(1,10)
