@@ -17,7 +17,7 @@ class HelperController extends Controller
     public function index(Task $task, Request $request)
     {
         $user = $request->user();
-        if(!$this->hasPermission($task, $user))
+        if(!$task->hasPermission($user))
             return response()->json(['message' => 'Permission denied'], 403);
         return Helper::where('task', $task->id)->get();
     }
@@ -35,10 +35,5 @@ class HelperController extends Controller
     public function destroy()
     {
         // TODO: Implement destroy
-    }
-
-    public function hasPermission($task, $user)
-    {
-        return $task->creator == $user->id;
     }
 }

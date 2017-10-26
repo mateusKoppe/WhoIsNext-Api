@@ -33,7 +33,7 @@ class TaskController extends Controller
     public function show(Task $task, Request $request)
     {
         $user = $request->user();
-        if(!$this->hasPermission($task, $user))
+        if(!$task->hasPermission($user))
             return response()->json(['message' => 'Permission denied'], 403);
         return $task;
     }
@@ -41,7 +41,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $user = $request->user();
-        if(!$this->hasPermission($task, $user))
+        if(!$task->hasPermission($user))
             return response()->json(['message' => 'Permission denied'], 403);
         $body = $request->all();
         $validation = Validator::make($body, [
@@ -58,14 +58,9 @@ class TaskController extends Controller
     public function destroy(Task $task, Request $request)
     {
         $user = $request->user();
-        if(!$this->hasPermission($task, $user))
+        if(!$task->hasPermission($user))
             return response()->json(['message' => 'Permission denied'], 403);
         $task->delete();
         return response(null, 200);
-    }
-
-    public function hasPermission($task, $user)
-    {
-        return $task->creator == $user->id;
     }
 }
