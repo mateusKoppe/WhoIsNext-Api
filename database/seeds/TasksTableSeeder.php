@@ -12,7 +12,10 @@ class TasksTableSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+        DB::table('helpers')->truncate();
         DB::table('tasks')->truncate();
+        Schema::enableForeignKeyConstraints();
         $faker = \Faker\Factory::create();
         for($i = 0; $i < 50; $i++){
             Task::create([
