@@ -24,7 +24,11 @@ class HelperController extends Controller
 
     public function show(Helper $helper, Request $request)
     {
-        // TODO: Implement show
+        $user = $request->user();
+        $task = $helper->getTask();
+        if(!$task->hasPermission($user))
+            return response()->json(['message' => 'Permission denied'], 403);
+        return $helper;
     }
 
     public function update()
