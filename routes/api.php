@@ -22,5 +22,6 @@ Route::post('login', 'Auth\LoginController@login');
 
 Route::resource('tasks', 'TaskController')->middleware('auth:api');
 
+Route::post('helpers/list/{task}', 'HelperController@store')->middleware('auth:api');
 Route::get('helpers/list/{task}', 'HelperController@index')->middleware('auth:api');
 Route::get('helpers/item/{helper}', 'HelperController@show')->middleware('auth:api');
