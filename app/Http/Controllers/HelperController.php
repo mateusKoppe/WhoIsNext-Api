@@ -43,9 +43,22 @@ class HelperController extends Controller
         return $helper;
     }
 
-    public function update()
+    public function update(Helper $helper, Request $request)
     {
-        // TODO: Implement update
+        $body = $request->all();
+        $user = $request->user();
+        $task = $helper->getTask();
+        if(!$task->hasPermission($user))
+            return response()->json(['message' => 'Permission denied'], 403);
+        $validator = Validator::make($body, [
+            'name' => 'required|string|min:2|max:64',
+            'helped_times' => 'integer|min:0',
+            'account' => 'integer|min:1|exists:users,id',
+        ]);
+        if($validator->fails())
+            return response($validator->errors(), 417);
+        $helper->update($body);
+        return $helper;
     }
 
     public function destroy()
