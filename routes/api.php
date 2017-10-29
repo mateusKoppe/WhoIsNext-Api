@@ -17,13 +17,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('register', 'Auth\RegisterController@register');
-Route::post('login', 'Auth\LoginController@login');
+Route::namespace('Auth')->group(function(){
+    Route::post('register', 'RegisterController@register');
+    Route::post('login', 'LoginController@login');
+});
 
 Route::resource('tasks', 'TaskController')->middleware('auth:api');
 
-Route::post('helpers/list/{task}', 'HelperController@store')->middleware('auth:api');
-Route::get('helpers/list/{task}', 'HelperController@index')->middleware('auth:api');
-Route::get('helpers/item/{helper}', 'HelperController@show')->middleware('auth:api');
-Route::put('helpers/item/{helper}', 'HelperController@update')->middleware('auth:api');
-Route::delete('helpers/item/{helper}', 'HelperController@destroy')->middleware('auth:api');
+Route::prefix('helpers')
+    ->middleware('auth:api')
+    ->group(function(){
+        Route::post('list/{task}', 'HelperController@store');
+        Route::get('list/{task}', 'HelperController@index');
+        Route::get('item/{helper}', 'HelperController@show');
+        Route::put('item/{helper}', 'HelperController@update');
+        Route::delete('item/{helper}', 'HelperController@destroy');
+    });
