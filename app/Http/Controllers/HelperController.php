@@ -61,8 +61,13 @@ class HelperController extends Controller
         return $helper;
     }
 
-    public function destroy()
+    public function destroy(Helper $helper, Request $request)
     {
-        // TODO: Implement destroy
+        $user = $request->user();
+        $task = $helper->getTask();
+        if(!$task->hasPermission($user))
+            return response()->json(['message' => 'Permission denied'], 403);
+        $helper->delete();
+        return response(null, 200);
     }
 }
